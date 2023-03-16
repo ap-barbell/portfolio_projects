@@ -1,0 +1,56 @@
+import random
+
+def card_value(card):
+if card in ['K', 'Q', 'J']:
+return 10
+elif card == 'A':
+return 11
+else:
+return int(card)
+
+def play_game():
+deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'] * 4
+random.shuffle(deck)
+
+player_hand = []
+dealer_hand = []
+
+# Initial deal
+player_hand.append(deck.pop())
+dealer_hand.append(deck.pop())
+player_hand.append(deck.pop())
+dealer_hand.append(deck.pop())
+
+print('Your hand: ', player_hand)
+print('Dealer hand: ', dealer_hand[0])
+
+# Player's turn
+while True:
+choice = input('Hit or stand? (H/S) ').lower()
+if choice == 'h':
+player_hand.append(deck.pop())
+print('Your hand: ', player_hand)
+if sum([card_value(card) for card in player_hand]) > 21:
+print('Bust! You lose.')
+return
+elif choice == 's':
+break
+
+# Dealer's turn
+while sum([card_value(card) for card in dealer_hand]) < 17:
+dealer_hand.append(deck.pop())
+print('Dealer hand: ', dealer_hand)
+
+# Determine winner
+player_total = sum([card_value(card) for card in player_hand])
+dealer_total = sum([card_value(card) for card in dealer_hand])
+if dealer_total > 21:
+print('Dealer busts! You win.')
+elif player_total > dealer_total:
+print('You win!')
+elif player_total == dealer_total:
+print('Push.')
+else:
+print('You lose.')
+
+play_game()
